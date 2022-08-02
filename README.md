@@ -42,7 +42,7 @@ $$ \left(dy \cdot \frac{\partial }{\partial y}\right) \left(dx \cdot \frac{\part
 Partial support is provided for a decomposition of the form
 
 ```julia
-    G(x::SVector{2},y::SVector{2}) = sum(G(n,x,y) (y-x)^(-n)/pi for n in 0:2) + G(:log,x,y)\log(|y-x|)/pi
+    G(x::SVector{2},y::SVector{2}) = sum(G(n,x,y) (y-x)^(-n)/pi for n in 0:2) + G(:log,x,y)log(norm(y-x))/pi
 ```
 
 where `G(n,x,y)` is analytic at `x=y`. This is intended for combination with the SingularIntegralEquations.jl package.
