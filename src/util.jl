@@ -14,5 +14,5 @@ cauchyweight2(order, x, y) = cauchyweight2(order,y-x)
 derivative(f, z) = epsilon(f(Dual(z, 1)))
 
 function cosangle(x::SVec2, dx::SVec2)
-    return iszero(x) ? zero(T) : dot(x, dx) / norm(x)
+    return iszero(x) ? zero(eltype(x)) : dot(x, dx) / norm(x)
 end

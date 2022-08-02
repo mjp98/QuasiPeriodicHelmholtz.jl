@@ -60,6 +60,10 @@ Base.@kwdef struct TailGreensFunction2D{T,S<:Real} <: AbstractQuasiPeriodicFunct
     end
 end
 
+function NaiveGreensFunction2D(G::TailGreensFunction2D)
+    NaiveGreensFunction2D(G.wavenumber,G.period,G.theta)
+end
+
 function evaluate(G::QuasiPeriodic, args...; M::Int=128)
     return evaluate(freespace(G),args...) + evaluate_tail(G, args...;M)
 end
@@ -76,7 +80,6 @@ function evaluate(G::QuasiPeriodic, x,y,dx,dy; M::Int=128)
     return evaluate(freespace(G),x,y,dx,dy) + evaluate_tail(G, x,y,dx,dy;M)
 end
 
-
 function evaluate(G::QuasiPeriodic,order::SymOrInt, args...; M::Int=128)
     return evaluate(freespace(G), order, args...) + evaluate_tail(G,args...;M)
 end
@@ -90,6 +93,11 @@ function evaluate_tail(G::QuasiPeriodic, x, args...;M::Int=128)
     F = FreeSpace(wavenumber)
     ret = sum(cis(m * kdc) * evaluate(F, x .+ SVector(d * m,0), args...) for m in 1:M)
     ret += sum(cis(m * kdc) * evaluate(F, x .+ SVector(d * m,0), args...) for m in -(1:M))
+end
+
+
+function evaluate_tail(G::TailGreensFunction2D, args...;M::Int=128)
+    evaluate_tail(NaiveGreensFunction2D(G), args...;M=M-1) + symmetrictailend(G, M , args...)
 end
 
 function symmetrictailend(G, M , args...)
