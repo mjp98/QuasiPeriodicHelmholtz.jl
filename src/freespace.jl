@@ -35,7 +35,7 @@ function evaluate(G::FreeSpace, x::SVec2, y::SVec2, dx::SVec2, dy::SVec2)
     k, r = wavenumber(G), norm(x - y)
 
     u = cosangle(x - y, dx) * cosangle(x - y, dy)
-    v = sum(dx .* dy)s
+    v = sum(dx .* dy)
 
     return (im * k^2 / 4) * (u * hankelh1_2(k * r) - v * hinc(k * r))
 end
