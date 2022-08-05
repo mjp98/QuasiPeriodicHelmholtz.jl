@@ -1,7 +1,7 @@
 name = "QuasiPeriodicHelmholtz"
 uuid = "287bbbc1-a9d6-4ffb-9ba5-4245934066bf"
 authors = ["Matthew Priddin and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 DualNumbers = "fa6b7ba4-c1ee-5f82-b5fc-ecf0adba8f74"
