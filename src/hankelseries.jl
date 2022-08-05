@@ -80,7 +80,7 @@ hankelh1_1(x) = hankelh1(1, x)
 
 function hankelh1_1(x, order)
     @assert order in (0, :log, 1, 2)
-    order == :log && return  2im * besselj(1, x)
+    order == :log && return 2im * besselj(1, x)
     order == 1 && return -2im
     order == 2 && return 0
 

@@ -61,47 +61,47 @@ Base.@kwdef struct TailGreensFunction2D{T,S<:Real} <: AbstractQuasiPeriodicFunct
 end
 
 function NaiveGreensFunction2D(G::TailGreensFunction2D)
-    NaiveGreensFunction2D(G.wavenumber,G.period,G.theta)
+    NaiveGreensFunction2D(G.wavenumber, G.period, G.theta)
 end
 
 function evaluate(G::QuasiPeriodic, args...; M::Int=128)
-    return evaluate(freespace(G),args...) + evaluate_tail(G, args...;M)
+    return evaluate(freespace(G), args...) + evaluate_tail(G, args...; M)
 end
 
-function evaluate(G::QuasiPeriodic, x,y; M::Int=128)
-    return evaluate(freespace(G),x,y) + evaluate_tail(G, x,y;M)
+function evaluate(G::QuasiPeriodic, x, y; M::Int=128)
+    return evaluate(freespace(G), x, y) + evaluate_tail(G, x, y; M)
 end
 
-function evaluate(G::QuasiPeriodic, x,y,dx; M::Int=128)
-    return evaluate(freespace(G),x,y,dx) + evaluate_tail(G, x,y,dx;M)
+function evaluate(G::QuasiPeriodic, x, y, dx; M::Int=128)
+    return evaluate(freespace(G), x, y, dx) + evaluate_tail(G, x, y, dx; M)
 end
 
-function evaluate(G::QuasiPeriodic, x,y,dx,dy; M::Int=128)
-    return evaluate(freespace(G),x,y,dx,dy) + evaluate_tail(G, x,y,dx,dy;M)
+function evaluate(G::QuasiPeriodic, x, y, dx, dy; M::Int=128)
+    return evaluate(freespace(G), x, y, dx, dy) + evaluate_tail(G, x, y, dx, dy; M)
 end
 
-function evaluate(G::QuasiPeriodic,order::SymOrInt, args...; M::Int=128)
-    return evaluate(freespace(G), order, args...) + evaluate_tail(G,args...;M)
+function evaluate(G::QuasiPeriodic, order::SymOrInt, args...; M::Int=128)
+    return evaluate(freespace(G), order, args...) + evaluate_tail(G, args...; M)
 end
 
-function evaluate_tail(G::QuasiPeriodic, x, args...;M::Int=128)
+function evaluate_tail(G::QuasiPeriodic, x, args...; M::Int=128)
     @unpack wavenumber, period, theta = G
 
     k, d, θ = wavenumber, period, theta
     kdc = k * d * cos(θ)
 
     F = FreeSpace(wavenumber)
-    ret = sum(cis(m * kdc) * evaluate(F, x .+ SVector(d * m,0), args...) for m in 1:M)
-    ret += sum(cis(m * kdc) * evaluate(F, x .+ SVector(d * m,0), args...) for m in -(1:M))
+    ret = sum(cis(m * kdc) * evaluate(F, x .+ SVector(d * m, 0), args...) for m in 1:M)
+    ret += sum(cis(m * kdc) * evaluate(F, x .+ SVector(d * m, 0), args...) for m in -(1:M))
 end
 
 
-function evaluate_tail(G::TailGreensFunction2D, args...;M::Int=128)
-    evaluate_tail(NaiveGreensFunction2D(G), args...;M=M-1) + symmetrictailend(G, M , args...)
+function evaluate_tail(G::TailGreensFunction2D, args...; M::Int=128)
+    evaluate_tail(NaiveGreensFunction2D(G), args...; M=M - 1) + symmetrictailend(G, M, args...)
 end
 
-function symmetrictailend(G, M , args...)
-    return tailend(G,true,M,args...) + tailend(G,false,M,args...)
+function symmetrictailend(G, M, args...)
+    return tailend(G, true, M, args...) + tailend(G, false, M, args...)
 end
 
 
@@ -111,7 +111,7 @@ function tailend(G, s::Bool, M::Int, x::SVec2, y::SVec2)
     @unpack wavenumber, period, theta = G
 
     k, d, θ = wavenumber, period, theta
-    u, v = x-y
+    u, v = x - y
     Δ = s ? 1 : -1
 
     kd, ku, kv = k * d, k * u, k * v
@@ -139,7 +139,7 @@ function tailend(G, s::Bool, M::Int, x::SVec2, y::SVec2, dx::SVec2)
     @unpack wavenumber, period, theta = G
 
     k, d, θ = wavenumber, period, theta
-    u, v = x-y
+    u, v = x - y
     nu, nv = dx
 
     Δ = s ? 1 : -1
