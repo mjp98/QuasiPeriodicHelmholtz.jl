@@ -12,6 +12,8 @@ It implements the tail end summation correction to compute the quasi-periodic Gr
     G = GreensFunction()
 ```
 
+using the method of 'Acoustic scattering from a one-dimensional array; Tail-end asymptotics for efficient evaluation of the quasi-periodic Green’s function, 2019, Georgia M. Lynott, Victoria Andrew, I. David Abrahams, Michael J. Simon, William J. Parnell, Raphaël C. Assier, Wave Motion' [doi](https://doi.org/10.1016/j.wavemoti.2019.01.012)
+
 Dispatch is used to return derivatives and decompositions of a Green's function in the following way:
 
 ```julia
