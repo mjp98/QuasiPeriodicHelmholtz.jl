@@ -13,9 +13,15 @@ function evaluate(G::FreeSpace, order::SymOrInt, x::SVec2, y::SVec2)
 
     @assert order in (0, :log, 1, 2)
 
-    order == :0 && return (log(k / 2) + γ) / 2 / π - im / 4
+    if order == 0
+        if x == y
+            return (log(k / 2) + γ) / 2 / π - im / 4
+        else
+            return G(x,y) - G(:log,x,y)*cauchyweight2(:log,x,y)
+        end
+    end
     order == :log && return besselj0(k * r) / 2
-    order == :1 && return zero(r)
+    order == 1 && return zero(r)
     order == 2 && return zero(r)
 end
 
