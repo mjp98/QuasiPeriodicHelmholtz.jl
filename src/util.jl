@@ -2,7 +2,7 @@ const RealOrDualReal = Union{Real,Dual{<:Real}}
 const SVec2 = SVector{2}
 const SymOrInt = Union{Symbol,Integer}
 
-logabs(z) = log(abs(z))
+logabs(z) = log(norm(z))
 
 function cauchyweight2(order ,x)
     order == :log && return logabs(x) / π
